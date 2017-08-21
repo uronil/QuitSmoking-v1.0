@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/image"
-                android:text="0 h 0 min" />
+                android:text="title" />
 
             <TextView
                 android:id="@+id/text"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
                 android:layout_toRightOf="@id/image"
-                android:text="Time left"
+                android:text="text"
                 android:textStyle="bold" />
 
         </LinearLayout>
