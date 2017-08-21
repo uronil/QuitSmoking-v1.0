@@ -61,19 +61,29 @@ public class MainActivity extends AppCompatActivity {
     PendingIntent pIntent;
     public void CustomNotification() {
         //remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
+        // old intent
         Intent intent = new Intent(this, MainActivity.class);
-        pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+        //        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+//        Intent iAction1 = new Intent(this, MyIntentService.class);
+//        iAction1.setAction(MyIntentService.ACTION1);
+//        pIntent = PendingIntent.getService(this, 0, iAction1, PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.smoke)
                 .setAutoCancel(false)
                 .setContentTitle("Time left")
+                .setTicker("Waiting")
+                .setOngoing(true) // always in notificationBar
                 .setContentText(timeleft);
          //       .setContent(remoteViews);
 
 //        remoteViews.setImageViewResource(R.id.image,R.drawable.smoke);
 //        remoteViews.setTextViewText(R.id.title,"Time left");
 //        remoteViews.setTextViewText(R.id.text,timeleft);
+
 
         notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationmanager.notify(0, builder.build());
