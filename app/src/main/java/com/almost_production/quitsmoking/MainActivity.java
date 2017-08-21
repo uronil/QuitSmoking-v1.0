@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     TextView textView_descr;
     TextView textView_timeLeft;
     EditText sigarets_count;
-
     Button button_start;
     Button button_imsmoked;
 
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         sigarets_count = (EditText) findViewById(R.id.sigarets_count);
         count = Integer.parseInt(sigarets_count.getText().toString());
 
-        // Buttons events
         button_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,50 +56,43 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public static final String WHERE_MY_CAT_ACTION = "ru.alexanderklimov.action.CAT";
+    public static final String ALARM_MESSAGE = "Срочно пришлите кота!";
+
+    public void sendMessage(View view) {
+        Intent intent = new Intent();
+        intent.setAction(WHERE_MY_CAT_ACTION);
+        intent.putExtra("ru.alexanderklimov.broadcast.Message", ALARM_MESSAGE);
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ClickButton(false);
+    }
+
     RemoteViews remoteViews;
     NotificationCompat.Builder builder;
     NotificationManager notificationmanager;
     public void CustomNotification() {
-        // Using RemoteViews to bind custom layouts into Notification
-        remoteViews = new RemoteViews(getPackageName(),
-                R.layout.notification);
+        remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
 
-        // Set Notification Title
-        String strtitle = "notification title";
-        // Set Notification Text
-        String strtext = "notification text";
-
-        // Open NotificationView Class on Notification Click
-        Intent intent = new Intent(this, NotificationView.class);
-        // Send data to NotificationView Class
-        intent.putExtra("title", "Time left");
-        intent.putExtra("text", timeleft);
-        // Open NotificationView.java Activity
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         builder = new NotificationCompat.Builder(this)
-                // Set Icon
                 .setSmallIcon(R.drawable.smoke)
-                // Set Ticker Message
-                .setTicker("Ticker message")
-                // Dismiss Notification
-                .setAutoCancel(true)
-                // Set PendingIntent into Notification
-                .setContentIntent(pIntent)
-                // Set RemoteViews into Notification
+                .setAutoCancel(false)
                 .setContent(remoteViews);
 
-        // Locate and set the Image into customnotificationtext.xml ImageViews
-        remoteViews.setImageViewResource(R.id.image,R.drawable.smoke);
 
-        // Locate and set the Text into customnotificationtext.xml TextViews
+        remoteViews.setImageViewResource(R.id.image,R.drawable.smoke);
         remoteViews.setTextViewText(R.id.title,"Time left");
         remoteViews.setTextViewText(R.id.text,timeleft);
 
-        // Create Notification Manager
         notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        // Build Notification with Notification Manager
         notificationmanager.notify(0, builder.build());
     }
 
@@ -140,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
                 UpdateNotification(false);
             }
             public void onFinish() {
+                timeleft = 0 + " min " + 0 + " sec";
+
                 textView_timeLeft.setText("You can go smoke");
                 button_imsmoked.setEnabled(true);
                 button_imsmoked.setText("I'm smoked");
