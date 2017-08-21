@@ -39,14 +39,8 @@ public class MainActivity extends AppCompatActivity {
     Button button_start;
     Button button_imsmoked;
 
-    Notification notification;
-    RemoteViews contentView;
-    NotificationManager mNotificationManager;
-    Button button_smoke_not;
-
     CountDownTimer cd = null;
     int count;
-    int temp = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         button_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                temp = 0;
                 count = Integer.parseInt(sigarets_count.getText().toString());
                 LaunchTimer(count);
                 count += 5;
@@ -77,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         button_imsmoked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                temp = 0;
                 LaunchTimer(count);
                 count += 5;
                 button_imsmoked.setEnabled(false);
@@ -130,20 +122,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (cd != null)
             cd.cancel();
-        cd = new CountDownTimer(sec * 1000, 1000) {
+        cd = new CountDownTimer(sec * 1000, 100) {
             public void onTick(long millisUntilFinished) {
                 textView_timeLeft.setText("Time left: "  + millisUntilFinished / 1000 / 60 +
-                        " min " + millisUntilFinished / 1000 + " sec");
-                temp++;
-                textView_descr.setText(temp + "");
+                        " min " + (millisUntilFinished + 1000) / 1000 + " sec");
                 //UpdateNotification(false);
             }
             public void onFinish() {
                 textView_timeLeft.setText("You can go smoke");
                 button_imsmoked.setEnabled(true);
                 button_imsmoked.setText("I'm smoked");
-                temp++;
-                textView_descr.setText(temp + "");
                 //UpdateNotification(true);
             }
 
