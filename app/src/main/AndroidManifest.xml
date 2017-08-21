@@ -17,14 +17,13 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".MessageReceiver"
+        <service
+            android:name=".MyIntentService"
+            android:exported="false" />
+        <service
+            android:name=".MyService"
             android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="ru.alexanderklimov.action.CAT" />
-            </intent-filter>
-        </receiver>
+            android:exported="true"></service>
     </application>
 
 </manifest>

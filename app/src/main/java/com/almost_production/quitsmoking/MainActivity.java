@@ -7,7 +7,6 @@ import android.os.CountDownTimer;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,54 +55,41 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static final String WHERE_MY_CAT_ACTION = "ru.alexanderklimov.action.CAT";
-    public static final String ALARM_MESSAGE = "Срочно пришлите кота!";
-
-    public void sendMessage(View view) {
-        Intent intent = new Intent();
-        intent.setAction(WHERE_MY_CAT_ACTION);
-        intent.putExtra("ru.alexanderklimov.broadcast.Message", ALARM_MESSAGE);
-        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        sendBroadcast(intent);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        ClickButton(false);
-    }
-
     RemoteViews remoteViews;
     NotificationCompat.Builder builder;
     NotificationManager notificationmanager;
+    PendingIntent pIntent;
     public void CustomNotification() {
-        remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
-
+        //remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
         Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.smoke)
                 .setAutoCancel(false)
-                .setContent(remoteViews);
+                .setContentTitle("Time left")
+                .setContentText(timeleft);
+         //       .setContent(remoteViews);
 
-
-        remoteViews.setImageViewResource(R.id.image,R.drawable.smoke);
-        remoteViews.setTextViewText(R.id.title,"Time left");
-        remoteViews.setTextViewText(R.id.text,timeleft);
+//        remoteViews.setImageViewResource(R.id.image,R.drawable.smoke);
+//        remoteViews.setTextViewText(R.id.title,"Time left");
+//        remoteViews.setTextViewText(R.id.text,timeleft);
 
         notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationmanager.notify(0, builder.build());
     }
 
     public void UpdateNotification(boolean cansmoke) {
-        remoteViews.setTextViewText(R.id.text,timeleft);
+        //remoteViews.setTextViewText(R.id.text,timeleft);
+        builder.setContentText(timeleft);
         if (cansmoke) {
-            remoteViews.setImageViewResource(R.id.image,R.drawable.smoke);
+            //remoteViews.setImageViewResource(R.id.image,R.drawable.smoke);
             builder.setSmallIcon(R.drawable.smoke);
+            builder.addAction(R.drawable.smoke,"I'm smoked", pIntent);
         } else {
-            remoteViews.setImageViewResource(R.id.image,R.drawable.smoke_no);
+            //remoteViews.setImageViewResource(R.id.image,R.drawable.smoke_no);
             builder.setSmallIcon(R.drawable.smoke_no);
+            builder.mActions.clear();
         }
         notificationmanager.notify(0, builder.build());
     }
