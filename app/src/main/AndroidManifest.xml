@@ -18,14 +18,11 @@
             </intent-filter>
 
         </activity>
-        <receiver android:name=".MainActivity$DownloadCancelReceiver" android:exported="false">
+        <receiver android:name=".MainActivity$Receiver" android:exported="false">
             <intent-filter>
-                <action android:name="Download_Cancelled" />
+                <action android:name="Send" />
             </intent-filter>
         </receiver>
-        <service
-            android:name=".MyIntentService"
-            android:exported="false" />
     </application>
 
 </manifest>
