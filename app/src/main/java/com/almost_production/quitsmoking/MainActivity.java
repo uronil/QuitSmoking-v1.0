@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             double d = (double) waitingtime / 60;
             textView_waitingtime_cur.setText("Wait " + Double.toString(d) + " MIN");
 
-            d = 16 * 60 * 60 / d / 60;
+            d = 16 * 60  / d;
             textView_sig_cur.setText(String.format("%.2f", d)  + " Sigs in day");
 
             button_imsmoked.setEnabled(true);
@@ -95,6 +95,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         saveSettings();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveSettings();
+        builder.setOngoing(false);
+        notificationmanager.notify(0, builder.build());
     }
 
     public void openSettings() {
