@@ -19,7 +19,12 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    static TextView textView_descr, textView_timeLeft, textView_sig_cur, textView_waitingtime_cur, textView_sig_cur_next, textView_waitingtime_cur_next;
+    static TextView textView_descr,
+            textView_timeLeft,
+            textView_sig_cur,
+            textView_waitingtime_cur,
+            textView_sig_cur_next,
+            textView_waitingtime_cur_next;
     static EditText sigarets_count;
     static Button button_start;
     static Button button_imsmoked;
@@ -137,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOngoing(true) // always in notificationBar
                 .setShowWhen(false)
                 .setContentIntent(pIntentToMain)
-                .setContentText(timeleft);
+                .setContentText("Launch timer for getting started");
 
         notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationmanager.notify(0, builder.build());
