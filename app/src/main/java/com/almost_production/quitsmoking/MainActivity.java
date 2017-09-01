@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         // Setting initialization
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         openSettings();
@@ -75,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         CustomNotification();
-
         button_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
         button_imsmoked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
