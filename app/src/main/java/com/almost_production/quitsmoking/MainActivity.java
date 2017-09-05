@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
     static NotificationManager notificationmanager;
     static PendingIntent pIntent;
     public void CustomNotification() {
+        // Communicate with broadcast receiver
         Intent intent = new Intent("Send");
         pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
