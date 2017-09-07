@@ -1,0 +1,14 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <item
+        android:drawable="@color/white"/>
+
+    <item>
+        <bitmap
+            android:width="100dp"
+            android:height="100dp"
+            android:gravity="center"
+            android:src="@mipmap/ic_launcher_big"/>
+    </item>
+</layer-list>
